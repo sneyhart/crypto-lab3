@@ -1,0 +1,21 @@
+CC = g++
+CFLAGS = -g -Wall
+LFLAGS = -g -Wall
+OBJS = cbcmac-tag.o cbcmac-validate.o util.o cbc-mac.o
+LIBS = -lssl -lcrypto -lpthread 
+
+.suffixes: .c .o
+
+all: cbcmac-tag cbcmac-validate $(OBJS)
+
+.c.o: util.h util.o
+	$(CC) $(CFLAGS) -c $*.c
+
+cbcmac-tag: cbcmac-tag.o util.o util.h cbc-mac.o cbc-mac.h
+	$(CC) $(LFLAGS) -o $@ $@.o util.o cbc-mac.o $(LIBS)
+
+cbcmac-validate: cbcmac-validate.o util.o util.h cbc-mac.o cbc-mac.h
+	$(CC) $(LFLAGS) -o $@ $@.o util.o cbc-mac.o $(LIBS)
+
+clean:
+	rm *.o cbcmac-tag
