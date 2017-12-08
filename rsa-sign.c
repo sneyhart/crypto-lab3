@@ -49,7 +49,10 @@ int main(int argc, char **argv)
 	if(strcmp(argv[i], "-s") == 0) out  = fopen(argv[i+1], "w");
     }
     rand = fopen("/dev/random", "r");
-    if(key == NULL || in == NULL || out == NULL || rand == NULL) exit(1);
+    if(key == NULL || in == NULL || out == NULL || rand == NULL){
+	fprintf(stderr, "NULL FILE\n");
+	exit(1);
+    }
     
     //testing
     char ob[65];

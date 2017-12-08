@@ -4,11 +4,13 @@
  *   Sam Neyhart    */
 
 #include <stdio.h>
+#include <fcntl.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include <assert.h>
 #include <inttypes.h>
+#include <unistd.h>
 #include "gmp.h"
 #define print_num(num) {mpz_out_str(stdout,10,num); printf("\n");}
 #define fprint_num(file, num) {mpz_out_str(file,10,num); fprintf(file, "\n");}
@@ -88,18 +90,28 @@ void find_prime(mpz_t i, mpz_t j)
 int main(int argc, char **argv)
 {
     char inputStr[8];
+    char *cert, *pubk, *privk;
     FILE *pub ,*sec, *seed;
     mpz_t p, q, t, n, e, d;
     gmp_randstate_t state;
     mp_bitcnt_t bits;
     int i;
     
-    assert(argc == 7);
     for(i = 1; i < argc; i++){
-	if(strcmp(argv[i], "-p") == 0)	pub	= fopen(argv[i+1], "w");
-	if(strcmp(argv[i], "-s") == 0)	sec	= fopen(argv[i+1], "w");
+	if(strcmp(argv[i], "-p") == 0){	
+	    pub	= fopen(argv[i+1], "w");
+	    pubk = argv[i+1];
+	}
+	if(strcmp(argv[i], "-s") == 0){	
+	    sec	= fopen(argv[i+1], "w");
+	    privk = argv[i+1];
+	}
 	if(strcmp(argv[i], "-n") == 0)	bits	= (mp_bitcnt_t)atoi(argv[i+1]);
+	if(strcmp(argv[i], "-c") == 0)	cert	= argv[i+1];
     }
+    assert(pub != NULL);
+    assert(sec != NULL);
+    assert(bits != 0);
     
     //initialize necessary variables
     mpz_inits(p,q,t,n,e,d,NULL);
@@ -150,10 +162,24 @@ int main(int argc, char **argv)
     fprintf(sec, "%lu\n", bits);
     fprint_num(sec, n);
     fprint_num(sec, d);
-
-    //clean up
+    
+    //close files
     fclose(seed); fclose(pub); fclose(sec);
     gmp_randclear(state);
     mpz_clears(p,q,t,n,e,d,NULL);
+    
+    if(cert == NULL) cert = privk;
+    char sig[256];
+    strcpy(sig, pubk);
+    strcat(sig, "-casig");
+    //printf("cert %s\n sig: %s\n", cert, sig);
+    if(fork() == 0){
+	int file = open("/dev/null", O_APPEND | O_WRONLY);
+	dup2(file, 1);
+	close(file);
+	execl("rsa-sign", "rsa-sign", "-m", pubk, "-k", cert, "-s", sig, (char*)0);
+	exit(1);
+    }
+    wait(&i);
     return 0;
 }
