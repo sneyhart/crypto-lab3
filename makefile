@@ -7,7 +7,7 @@ MFLAGS =  -I/usr/local/include -I/usr/local/Cellar/openssl/1.0.2l/include/  -L/u
 
 .suffixes: .c .o
 
-all: cbcmac-tag cbcmac-validate $(OBJS) rsa-validate rsa-sign rsa-keygen cbc-enc cbc-dec
+all: cbcmac-tag cbcmac-validate $(OBJS) rsa-validate rsa-sign rsa-keygen cbc-enc cbc-dec rsa-enc rsa-dec
 
 .c.o: util.h util.o
 	$(CC) $(CFLAGS) -c $*.c

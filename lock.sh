@@ -52,8 +52,8 @@ test=$(./rsa-validate -k "$val" -m "$pub" -s "$pubc")
 #echo $test
 
 head -c 16 /dev/random > key.txt
-./rsa-enc "-k" "$val" "-i" "key.txt" "-o" "skm.txt"
-./rsa-sign "-k" "skm.txt" "-m" "$priv" "-s" "signed.txt"
+./rsa-enc "-k" "$priv" "-i" "key.txt" "-o" "skm.txt"
+./rsa-sign "-k" "keys/p1-priv" "-m" "skm.txt" "-s" "signed.txt"
 
 array=$(ls $dir| cat)
 for entry in $array
@@ -62,6 +62,12 @@ do
   tmp+="/"
   tmp+=$entry
   entry=$tmp
+  
+  encent="$entry+enc"
+  tagent="$entry+tag"
+  ./cbc-enc "-k" "key.txt" "-i" "$entry" "-o" "$encent" "-v" "key.txt"
+  ./cbcmac-tag "-k" "key.txt" "-m" "$encent" "-t" "$tagent"
+  ./cbcmac-validate "-k" "key.txt" "-m" "$encent" "-t" "$tagent"
   echo $entry
 done
 

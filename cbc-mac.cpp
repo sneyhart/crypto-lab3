@@ -41,7 +41,7 @@ char* cbc_mac(char* kn, char* mn, char* tn)
 	fread(pbuff, size, 1, input);
 	rewind(input);
 	prependedm.append(pbuff);
-	FILE *f = fopen("newm.txt", "rw");
+	FILE *f = fopen("newm.txt", "rwb");
 	fprintf(f, "%s\n", prependedm.c_str());
 	//encryption
 	time_t t;
@@ -55,7 +55,7 @@ char* cbc_mac(char* kn, char* mn, char* tn)
 	}
 	if(fread(&key,1,16,kf) != 16)
 		fprintf(stderr,"Not enough bytes read for the key.\n");
-	tmp = fread(&buf,1,16,f); 
+	tmp = fread(&buf,1,16,input); 
 	while(tmp == 16){
 		xor_128(buf,prev);
 		encode_128(key, buf, buf2);
@@ -63,7 +63,7 @@ char* cbc_mac(char* kn, char* mn, char* tn)
 		buf2[16] = '\0';
 //		printf("%s\n",buf2);
 //		fwrite(buf2,1,16,output);
-		tmp = fread(&buf,1,16,f); 
+		tmp = fread(&buf,1,16,input); 
 	}
 	for(i = tmp; i < 16; i++){
 		buf[i] = (u_char) (16 - tmp);
