@@ -1,7 +1,7 @@
 #!/bin/bash
 
-filenames='ls .'
-for entry in $filenames
+array=$(ls | cat)
+for entry in $array
 do
-  echo "$entry"
+  cat $entry
 done
