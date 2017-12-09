@@ -41,8 +41,8 @@ char* cbc_mac(char* kn, char* mn, char* tn)
 	fread(pbuff, size, 1, input);
 	rewind(input);
 	prependedm.append(pbuff);
-	FILE *f = fopen("newm.txt", "rwb");
-	fprintf(f, "%s\n", prependedm.c_str());
+//	FILE *f = fopen("newm.txt", "rwb");
+//	fprintf(f, "%s\n", prependedm.c_str());
 	//encryption
 	time_t t;
 	srand((unsigned) time(&t));
@@ -89,6 +89,6 @@ char* cbc_mac(char* kn, char* mn, char* tn)
 	fclose(kf);
 	fclose(input);
 	fclose(output);
-	fclose(f);
+//	fclose(f);
 	return ret;
 }

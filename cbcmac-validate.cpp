@@ -56,5 +56,6 @@ int main(int argc, char ** argv)
 	
 	}
 	fclose(cbctest);	
+	fclose(cbcreal);
 	return 0;
 }
