@@ -46,9 +46,14 @@ echo "$pub"
 echo "$priv"
 echo "$val"
 
+pubc="$pub-casig"
 test=$(./rsa-validate -k "$val" -m "$pub" -s "$pubc")
 ./rsa-validate -k "$val" -m "$pub" -s "$pubc"
 #echo $test
+
+head -c 16 /dev/random > key.txt
+./rsa-enc "-k" "$val" "-i" "key.txt" "-o" "skm.txt"
+./rsa-sign "-k" "skm.txt" "-m" "$priv" "-s" "signed.txt"
 
 array=$(ls $dir| cat)
 for entry in $array
