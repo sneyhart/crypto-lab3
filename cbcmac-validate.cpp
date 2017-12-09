@@ -1,7 +1,7 @@
 #include "util.h"
 #include <cstdlib>
 #include <cstdio>
-#include <string>
+#include <string.h>
 #include <sstream>
 #include "cbc-mac.h"
 

@@ -1,4 +1,5 @@
 #include "util.h"
+#include <string.h>
 
 void xor_128(u_char *message, u_char *prev){
 	int i;

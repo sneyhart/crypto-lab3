@@ -1,6 +1,7 @@
 #include "util.h"
 #include <cstdio>
 #include <cstdlib>
+#include <string.h>
 
 int main(int argc, char ** argv)
 {
