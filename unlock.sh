@@ -72,8 +72,12 @@ do
   fi 
   ver3=$(./cbcmac-validate "-k" "key.txt" "-m" "$encent" "-t" "$tagent")
   ./cbc-dec -k key.txt -i "$encent" -o "$base" -v key.txt
+  rm $encent
+  rm $tagent
   echo "$var3"
   #echo $entry
 done
 
-
+rm key.txt
+rm skm.txt
+rm signed.txt

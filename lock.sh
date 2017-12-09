@@ -67,8 +67,10 @@ do
   tagent="$entry+tag"
   ./cbc-enc "-k" "key.txt" "-i" "$entry" "-o" "$encent" "-v" "key.txt"
   ./cbcmac-tag "-k" "key.txt" "-m" "$encent" "-t" "$tagent"
-  ./cbcmac-validate "-k" "key.txt" "-m" "$encent" "-t" "$tagent"
+  #./cbcmac-validate "-k" "key.txt" "-m" "$encent" "-t" "$tagent"
+  rm entry
   echo $entry
 done
 
+rm keys.txt
 
