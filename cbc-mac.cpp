@@ -76,7 +76,7 @@ char* cbc_mac(char* kn, char* mn, char* tn)
 
 	
 
-	printf("File written.\n");
+//	printf("File written.\n");
 	char* ret;
 	long osize;
 	fseek(output, 0, SEEK_END);
