@@ -30,22 +30,31 @@ int main(int argc, char ** argv)
 		return 1;
 	}	
 
-	//cbc_mac(argv[k],argv[m],cbctest.txt);
-	FILE *cbctest;
-	cbctest = fopen(argv[t], "rb");
-	long fsize;
+	cbc_mac(argv[k],argv[m],"cbctest.txt");
+	FILE *cbctest, *cbcreal;
+	cbctest = fopen("cbctest.txt", "rb");
+	cbcreal = fopen(argv[t], "rb");
+	long tsize, rsize;
 	fseek(cbctest, 0, SEEK_END);
-	fsize = ftell(cbctest);
+	tsize = ftell(cbctest);
 	fseek(cbctest, 0, SEEK_END);
-	char* cbcbuff;
-	cbcbuff = (char*)malloc(fsize+1);
-	fread(cbcbuff, fsize, 1, cbctest);
+	fseek(cbcreal, 0, SEEK_END);
+	rsize = ftell(cbcreal);
+	fseek(cbcreal, 0, SEEK_END);
+	char *cbctbuff, *cbcrbuff;
+	cbctbuff = (char*)malloc(tsize+1);
+	cbcrbuff = (char*)malloc(rsize+1);
+	fread(cbctbuff, tsize, 1, cbctest);
+	fread(cbcrbuff, rsize, 1, cbcreal);
 
-	if(strcmp(cbcbuff , cbc_mac(argv[k],argv[m],"cbctest.txt"))==0)
+	if(strcmp(cbctbuff , cbcrbuff)==0)
 		printf("true\n");
-	else 
+	else
+	{
+		printf("%d\n", strcmp(cbctbuff , cbcrbuff));
 		printf("false\n");
 	
+	}
 	fclose(cbctest);	
 	return 0;
 }
