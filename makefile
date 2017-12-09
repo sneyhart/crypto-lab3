@@ -29,5 +29,5 @@ rsa-keygen: rsa-keygen.c
 
 clean:
 	rm rsa-sign rsa-validate rsa-keygen *.o
-	rm *.o cbcmac-tag
+	rm *.o cbcmac-tag cbcmac-validate
 	
