@@ -11,7 +11,9 @@
 #include <assert.h>
 #include <inttypes.h>
 #include <unistd.h>
+#include <sys/wait.h>
 #include "gmp.h"
+
 #define print_num(num) {mpz_out_str(stdout,10,num); printf("\n");}
 #define fprint_num(file, num) {mpz_out_str(file,10,num); fprintf(file, "\n");}
 

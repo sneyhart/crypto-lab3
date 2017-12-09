@@ -71,9 +71,13 @@ sec
 rsa-sign
 rsa-validate
 sig
-cbcmac-tag
 cbcmac-validate
+cbcmac-tag
+*.txt
 newm.txt
 testkey.txt
 testm.txt
 testo.txt
+aes-key
+tag
+
