@@ -46,10 +46,18 @@ echo "$pub"
 echo "$priv"
 echo "$val"
 
-array=$(ls | cat)
+test=$(./rsa-validate -k "$val" -m "$pub" -s "$pubc")
+./rsa-validate -k "$val" -m "$pub" -s "$pubc"
+#echo $test
+
+array=$(ls $dir| cat)
 for entry in $array
 do
-  echo "$entry"
+  tmp=$dir
+  tmp+="/"
+  tmp+=$entry
+  entry=$tmp
+  echo $entry
 done
 
 
